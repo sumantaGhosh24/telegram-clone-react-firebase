@@ -1,19 +1,10 @@
 import {useEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import {doc, getDoc, getFirestore} from "firebase/firestore";
 import Head from "next/head";
 import {useRouter} from "next/router";
 import Link from "next/link";
 
-import Navbar from "../../components/Navbar";
 import {firebaseApp} from "../../firebase";
 import ChatHeader from "../../components/ChatHeader";
 import ChatMessage from "../../components/ChatMessage";
@@ -24,6 +15,15 @@ interface ChatType {
   timestamp: any;
   lastMessage: any;
   users: string[];
+}
+
+interface ChatUserType {
+  avatar: string;
+  username: string;
+  name: string;
+  bio: string;
+  lastLogin: any;
+  online: boolean;
 }
 
 export default function Page() {
@@ -37,14 +37,15 @@ export default function Page() {
     bio: "",
     avatar: "",
   });
-  const [chatUser, setChatUser] = useState({});
-  const [chat, setChat] = useState<ChatType>({
-    id: "",
-    timestamp: "",
-    lastMessage: "",
-    users: [],
+  const [chatUser, setChatUser] = useState<ChatUserType>({
+    avatar: "",
+    username: "",
+    name: "",
+    bio: "",
+    lastLogin: "",
+    online: false,
   });
-  const [message, setMessage] = useState<any[]>([]);
+  const [chat, setChat] = useState<ChatType>();
 
   const auth = getAuth();
   const db = getFirestore(firebaseApp);
@@ -61,7 +62,7 @@ export default function Page() {
             userId: authUser.uid,
             name: userData.name,
             username: userData.username,
-            email: userData.email,
+            email: authUser.email || "",
             bio: userData.bio,
             avatar: userData.avatar,
           });
@@ -104,15 +105,11 @@ export default function Page() {
         lastMessage: docSnap.data()?.lastMessage,
         users: docSnap.data()?.users,
       });
+
       const users = await docSnap.data()?.users;
       if (users) {
-        const userId =
-          users[0] === user.userId
-            ? users[1]
-            : users[1] === user.userId
-            ? users[0]
-            : users[1];
-        const docSnap = await getDoc(doc(db, "users", `${userId}`));
+        const chatUser = users.filter((el: string) => el !== user.userId);
+        const docSnap = await getDoc(doc(db, "users", `${chatUser}`));
         if (docSnap.exists()) {
           setChatUser({
             avatar: docSnap.data().avatar,
@@ -130,20 +127,10 @@ export default function Page() {
     };
   }, [db, messageId, router, user.userId]);
 
-  useEffect(() => {
-    const unsubscribe = () => {
-      const messageRef = collection(db, "chats", `${messageId}`, "messages");
-      const messageQuery = query(messageRef, orderBy("timestamp", "asc"));
-      onSnapshot(messageQuery, (snapshot) => {
-        setMessage(snapshot.docs.map((doc) => doc.data()));
-      });
-    };
-    return () => {
-      unsubscribe();
-    };
-  }, [db, messageId, router, user.userId]);
-
-  if (typeof chat.users === "undefined") {
+  if (typeof chat?.users === "undefined") {
+    return "Loading...";
+  }
+  if (typeof messageId === "undefined") {
     return "Loading...";
   }
   if (chat.users[0] !== user.userId && chat.users[1] !== user.userId) {
@@ -166,23 +153,23 @@ export default function Page() {
     );
   }
 
+  console.log(chatUser);
+
   return (
     <>
       <Head>
         <title>Chat | Telegram Clone</title>
       </Head>
-      <Navbar id={user.userId} />
-      <div className="bg-gray-100">
-        <div className="mx-auto max-w-7xl bg-white p-4">
-          <ChatHeader chatUser={chatUser} chat={chat} />
+      <div className="bg-gray-100 p-5">
+        <div className="mx-auto max-w-5xl bg-white">
+          <ChatHeader messageId={String(messageId)} currentUser={user.userId} />
           <ChatMessage
-            chat={chat.id}
-            message={message}
+            messageId={String(messageId)}
             currentUser={user.userId}
-            chatUserAvatar={chatUser}
             currentUserAvatar={user.avatar}
+            chatId={chat.id}
           />
-          <ChatInput chat={chat.id} user={user.userId} />
+          <ChatInput chat={String(messageId)} user={user.userId} />
         </div>
       </div>
     </>

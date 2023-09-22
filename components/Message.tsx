@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import {decryptWithAES} from "../lib/encrypt-decrypt";
 
 interface MessageType {
@@ -60,11 +61,11 @@ const Message = ({
               height={50}
               width={50}
               unoptimized
-              src={chatUserAvatar.avatar}
+              src={chatUserAvatar}
               alt="user"
               className="mr-2 mt-2 h-8 w-8 rounded-full object-cover"
             />
-            <div className="rounded-lg bg-gray-200 px-4 py-2">
+            <div className="rounded-lg bg-gray-400 px-4 py-2 text-white">
               <span className="text-xs">
                 {timestamp?.toDate().toDateString()}
               </span>{" "}

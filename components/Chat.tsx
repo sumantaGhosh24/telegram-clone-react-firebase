@@ -27,12 +27,7 @@ const Chat = ({chat, currentUser}: ChatTypes) => {
 
   useEffect(() => {
     const unsubscribe = async () => {
-      const userId =
-        chat?.users[0] === currentUser
-          ? chat?.users[1]
-          : chat?.users[1] === currentUser
-          ? chat?.users[0]
-          : chat?.user[1];
+      const userId = chat?.users.filter((el: string) => el !== currentUser);
       const docSnap = await getDoc(doc(db, "users", `${userId}`));
       if (docSnap.exists()) {
         setChatUser({
@@ -68,7 +63,7 @@ const Chat = ({chat, currentUser}: ChatTypes) => {
         <h4 className="my-2 text-sm font-bold">{chatUser?.username}</h4>
         <p className="my-2 text-sm font-light">{chatUser?.bio}</p>
         <p className="my-2 text-xs font-extralight">
-          {chat?.lastMessage?.toDate().toDateString()}
+          Last Message: {chat?.lastMessage?.toDate().toDateString()}
         </p>
       </div>
       <div className="ml-auto">
@@ -78,7 +73,7 @@ const Chat = ({chat, currentUser}: ChatTypes) => {
           <PowerOff className="text-red-500" />
         )}
         <p className="my-2 text-base">
-          {chatUser?.lastLogin?.toDate().toDateString()}
+          Last login: {chatUser?.lastLogin?.toDate().toDateString()}
         </p>
       </div>
     </Link>
