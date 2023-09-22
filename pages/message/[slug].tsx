@@ -17,15 +17,6 @@ interface ChatType {
   users: string[];
 }
 
-interface ChatUserType {
-  avatar: string;
-  username: string;
-  name: string;
-  bio: string;
-  lastLogin: any;
-  online: boolean;
-}
-
 export default function Page() {
   const router = useRouter();
 
@@ -36,14 +27,6 @@ export default function Page() {
     email: "",
     bio: "",
     avatar: "",
-  });
-  const [chatUser, setChatUser] = useState<ChatUserType>({
-    avatar: "",
-    username: "",
-    name: "",
-    bio: "",
-    lastLogin: "",
-    online: false,
   });
   const [chat, setChat] = useState<ChatType>();
 
@@ -105,22 +88,6 @@ export default function Page() {
         lastMessage: docSnap.data()?.lastMessage,
         users: docSnap.data()?.users,
       });
-
-      const users = await docSnap.data()?.users;
-      if (users) {
-        const chatUser = users.filter((el: string) => el !== user.userId);
-        const docSnap = await getDoc(doc(db, "users", `${chatUser}`));
-        if (docSnap.exists()) {
-          setChatUser({
-            avatar: docSnap.data().avatar,
-            username: docSnap.data().username,
-            name: docSnap.data().name,
-            bio: docSnap.data().bio,
-            lastLogin: docSnap.data().lastLogin,
-            online: docSnap.data().online,
-          });
-        }
-      }
     };
     return () => {
       unsubscribe();
@@ -152,8 +119,6 @@ export default function Page() {
       </div>
     );
   }
-
-  console.log(chatUser);
 
   return (
     <>

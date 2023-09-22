@@ -11,6 +11,12 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import {toast} from "react-toastify";
+import {
+  doc,
+  getFirestore,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 
 import {LoginValidation} from "../lib/validation/user";
 import {
@@ -24,12 +30,6 @@ import {
 import {Input} from "../components/ui/input";
 import {Button} from "../components/ui/button";
 import {firebaseApp} from "../firebase";
-import {
-  doc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
 
 export default function Login() {
   const router = useRouter();

@@ -9,8 +9,8 @@ import {
 import {Send} from "lucide-react";
 import {useState} from "react";
 import {toast} from "react-toastify";
-import {firebaseApp} from "../firebase";
 
+import {firebaseApp} from "../firebase";
 import {encryptWithAES} from "../lib/encrypt-decrypt";
 import {Button} from "./ui/button";
 
@@ -28,7 +28,6 @@ const ChatInput = ({chat, user}: ChatInputType) => {
     e.preventDefault();
     if (!message) return;
     try {
-      console.log(chat);
       await addDoc(collection(db, "chats", chat, "messages"), {
         type: "message",
         message: encryptWithAES(message, chat),

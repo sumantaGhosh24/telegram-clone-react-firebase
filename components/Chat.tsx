@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {doc, getDoc, getFirestore} from "firebase/firestore";
-
-import {firebaseApp} from "../firebase";
 import Link from "next/link";
 import Image from "next/image";
 import {Power, PowerOff} from "lucide-react";
+
+import {firebaseApp} from "../firebase";
 
 interface ChatTypes {
   chat: any;
