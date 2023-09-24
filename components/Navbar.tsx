@@ -37,11 +37,6 @@ function Navbar({id}: {id: string}) {
             </Link>
           </li>
           <li>
-            <Link href="/group">
-              <p className="text-white">Group</p>
-            </Link>
-          </li>
-          <li>
             <Link href="/profile">
               <p className="text-white">Profile</p>
             </Link>
