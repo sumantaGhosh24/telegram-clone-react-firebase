@@ -2,7 +2,6 @@ import {
   addDoc,
   collection,
   doc,
-  getFirestore,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
@@ -10,7 +9,7 @@ import {Send} from "lucide-react";
 import {useState} from "react";
 import {toast} from "react-toastify";
 
-import {firebaseApp} from "../firebase";
+import {db} from "../firebase";
 import {encryptWithAES} from "../lib/encrypt-decrypt";
 import {Button} from "./ui/button";
 
@@ -21,8 +20,6 @@ interface ChatInputType {
 
 const ChatInput = ({chat, user}: ChatInputType) => {
   const [message, setMessage] = useState("");
-
-  const db = getFirestore(firebaseApp);
 
   const addChat = async (e: any) => {
     e.preventDefault();
@@ -45,7 +42,7 @@ const ChatInput = ({chat, user}: ChatInputType) => {
   };
 
   return (
-    <div className="fixed bottom-0 mt-4 flex w-4/5 bg-blue-500 px-5 py-3">
+    <div className="fixed bottom-0 mx-auto mt-4 flex w-[90%] bg-blue-500 px-5 py-3">
       <input
         type="text"
         name="message"

@@ -3,14 +3,13 @@ import {
   collection,
   doc,
   getDoc,
-  getFirestore,
   onSnapshot,
   orderBy,
   query,
 } from "firebase/firestore";
 
 import Message from "./Message";
-import {firebaseApp} from "../firebase";
+import {db} from "../firebase";
 
 interface ChatMessageType {
   messageId: string;
@@ -36,8 +35,6 @@ const ChatMessage = ({
 }: ChatMessageType) => {
   const [message, setMessage] = useState<any[]>([]);
   const [chatUser, setChatUser] = useState<ChatUserType>();
-
-  const db = getFirestore(firebaseApp);
 
   useEffect(() => {
     const unsubscribe = async () => {
@@ -79,7 +76,7 @@ const ChatMessage = ({
   if (typeof chatUser === "undefined") return <p>Loading...</p>;
 
   return (
-    <div className="no-scrollbar mt-4 h-[550px] overflow-y-scroll p-5">
+    <div className="no-scrollbar mt-4 h-[80vh] overflow-y-scroll p-5">
       {message.map((message, i) => (
         <Message
           key={i}

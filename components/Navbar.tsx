@@ -1,16 +1,13 @@
-import {getAuth, signOut} from "firebase/auth";
-import {doc, getFirestore, updateDoc} from "firebase/firestore";
+import {signOut} from "firebase/auth";
+import {doc, updateDoc} from "firebase/firestore";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
 
-import {firebaseApp} from "../firebase";
+import {auth, db} from "../firebase";
 
 function Navbar({id}: {id: string}) {
   const router = useRouter();
-
-  const auth = getAuth(firebaseApp);
-  const db = getFirestore(firebaseApp);
 
   const handleLogout = async () => {
     try {

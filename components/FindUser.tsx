@@ -5,7 +5,6 @@ import {toast} from "react-toastify";
 import {
   addDoc,
   collection,
-  getFirestore,
   onSnapshot,
   query,
   serverTimestamp,
@@ -13,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 import {Button} from "./ui/button";
-import {firebaseApp} from "../firebase";
+import {db} from "../firebase";
 import {encryptWithAES} from "../lib/encrypt-decrypt";
 
 interface User {
@@ -36,8 +35,6 @@ const FindUser = ({
   setOpen,
 }: User) => {
   const [exists, setExists] = useState(false);
-
-  const db = getFirestore(firebaseApp);
 
   const unsubscribe = async () => {
     const chatQuery = query(

@@ -3,20 +3,11 @@ import {useRouter} from "next/router";
 import {useForm} from "react-hook-form";
 import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {
-  signInWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-} from "firebase/auth";
+import {signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
 import Head from "next/head";
 import Link from "next/link";
 import {toast} from "react-toastify";
-import {
-  doc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import {doc, serverTimestamp, updateDoc} from "firebase/firestore";
 
 import {LoginValidation} from "../lib/validation/user";
 import {
@@ -29,13 +20,10 @@ import {
 } from "../components/ui/form";
 import {Input} from "../components/ui/input";
 import {Button} from "../components/ui/button";
-import {firebaseApp} from "../firebase";
+import {auth, db} from "../firebase";
 
 export default function Login() {
   const router = useRouter();
-
-  const auth = getAuth(firebaseApp);
-  const db = getFirestore(firebaseApp);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {

@@ -1,6 +1,6 @@
-export const API_KEY = "AIzaSyA8ysHdjZu-veEXW2d3GhhXb8tUp404SkQ";
-export const AUTH_DOMAIN = "react-project-29582.firebaseapp.com";
-export const PROJECT_ID = "react-project-29582";
-export const STORAGE_BUCKET = "react-project-29582.appspot.com";
-export const MESSAGING_SENDER_ID = "540376174430";
-export const APP_ID = "1:540376174430:web:c0b82a424bd1a8830d49cf";
+export const API_KEY = "AIzaSyDpsLC2bcTv9Bn8Gqtt89rnJCeyd8m_JYE";
+export const AUTH_DOMAIN = "chat-app-eb11c.firebaseapp.com";
+export const PROJECT_ID = "chat-app-eb11c";
+export const STORAGE_BUCKET = "chat-app-eb11c.appspot.com";
+export const MESSAGING_SENDER_ID = "452423416200";
+export const APP_ID = "1:452423416200:web:f0f792e976157671cae23d";

@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
-import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {doc, getDoc, getFirestore} from "firebase/firestore";
+import {onAuthStateChanged} from "firebase/auth";
+import {doc, getDoc} from "firebase/firestore";
 import Head from "next/head";
 import {useRouter} from "next/router";
 import Link from "next/link";
 
-import {firebaseApp} from "../../firebase";
 import ChatHeader from "../../components/ChatHeader";
 import ChatMessage from "../../components/ChatMessage";
 import ChatInput from "../../components/ChatInput";
+import {auth, db} from "../../firebase";
 
 interface ChatType {
   id: string;
@@ -30,8 +30,6 @@ export default function Page() {
   });
   const [chat, setChat] = useState<ChatType>();
 
-  const auth = getAuth();
-  const db = getFirestore(firebaseApp);
   const messageId = router.query.slug;
 
   useEffect(() => {

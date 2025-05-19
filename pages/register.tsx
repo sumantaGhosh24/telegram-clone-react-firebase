@@ -5,7 +5,6 @@ import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   onAuthStateChanged,
 } from "firebase/auth";
 import Head from "next/head";
@@ -23,12 +22,10 @@ import {
 } from "../components/ui/form";
 import {Input} from "../components/ui/input";
 import {Button} from "../components/ui/button";
-import {firebaseApp} from "../firebase";
+import {auth} from "../firebase";
 
 export default function Register() {
   const router = useRouter();
-
-  const auth = getAuth(firebaseApp);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
